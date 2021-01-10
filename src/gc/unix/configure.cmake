@@ -28,6 +28,16 @@ check_cxx_source_compiles("
     " HAVE_PTHREAD_GETTHREADID_NP)
 
 check_cxx_source_compiles("
+    #include <pthread_np.h>
+    #include <stdint.h>
+
+    int main()
+    {
+        return (int)pthread_getthreadid_np();
+    }
+    " HAVE_PTHREAD_GETTHREADID_NP)
+
+check_cxx_source_compiles("
     #include <sys/mman.h>
 
     int main()

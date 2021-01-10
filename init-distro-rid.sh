@@ -77,7 +77,7 @@ initNonPortableDistroRid()
         fi
     fi
 
-    if [ "$buildOs" = "FreeBSD" ]; then
+    if [ "$buildOs" = "FreeBSD" ] && (( ${isPortable} == 0 )); then
         __freebsd_version=`sysctl -n kern.osrelease | cut -f1 -d'.'`
         nonPortableBuildID="freebsd.$__freebsd_version-${buildArch}"
     fi
