@@ -782,6 +782,13 @@ while :; do
             __ClangMinorVersion=
             ;;
 
+        --clang*)
+                # clangx.y or clang-x.y
+                v=`echo $lowerI | tr -d '[:alpha:]-='`
+                __ClangMajorVersion=`echo $v | cut -d '.' -f1`
+                __ClangMinorVersion=
+            ;;
+
         gcc5|-gcc5)
             __GccMajorVersion=5
             __GccMinorVersion=
