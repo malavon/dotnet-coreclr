@@ -267,4 +267,6 @@ if (CLR_CMAKE_PLATFORM_LINUX)
 endif (CLR_CMAKE_PLATFORM_LINUX)
 
 add_library_clr(cee_crossgen ${VM_CROSSGEN_SOURCES})
+if(FEATURE_PERFTRACING)
 add_dependencies(cee_crossgen eventing_headers)
+endif()

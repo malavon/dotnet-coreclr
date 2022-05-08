@@ -8,4 +8,6 @@ if (WIN32)
 endif (WIN32)
 
 add_library_clr(cordbee_dac ${CORDBEE_SOURCES_DAC})
+if(FEATURE_PERFTRACING)
 add_dependencies(cordbee_dac eventing_headers)
+endif()

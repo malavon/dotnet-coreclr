@@ -11,4 +11,6 @@ add_definitions(
 add_definitions(-DCROSSGEN_MSCORLIB)
 
 add_library_clr(mscorlib_crossgen ../mscorlib.cpp)
+if(FEATURE_PERFTRACING)
 add_dependencies(cee_crossgen eventing_headers)
+endif()
