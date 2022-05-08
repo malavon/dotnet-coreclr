@@ -101,7 +101,11 @@ set(UTILCODE_STATICNOHOST_SOURCES
   hostimpl.cpp
 )
 
+if(FEATURE_PERFTRACING)
 set (UTILCODE_DEPENDENCIES eventing_headers)
+else()
+set (UTILCODE_DEPENDENCIES )
+endif()
 
 convert_to_absolute_path(UTILCODE_SOURCES ${UTILCODE_SOURCES})
 convert_to_absolute_path(UTILCODE_DAC_SOURCES ${UTILCODE_DAC_SOURCES})

@@ -6,4 +6,6 @@ if(CLR_CMAKE_PLATFORM_UNIX)
   target_link_libraries(utilcode_crossgen  nativeresourcestring)
 endif(CLR_CMAKE_PLATFORM_UNIX)
 
+if(UTILCODE_DEPENDENCIES)
 add_dependencies(utilcode_crossgen ${UTILCODE_DEPENDENCIES})
+endif()

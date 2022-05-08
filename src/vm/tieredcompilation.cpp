@@ -386,10 +386,12 @@ bool TieredCompilationManager::TryInitiateTieringDelay()
     }
 
     timerContextHolder.SuppressRelease(); // the timer context is automatically deleted by the timer infrastructure
-    if (ETW::CompilationLog::TieredCompilation::Runtime::IsEnabled())
+#ifdef FEATURE_EVENT_TRACE
+	if (ETW::CompilationLog::TieredCompilation::Runtime::IsEnabled())
     {
         ETW::CompilationLog::TieredCompilation::Runtime::SendPause();
     }
+#endif
     return true;
 }
 
@@ -500,8 +502,10 @@ void TieredCompilationManager::TieringDelayTimerCallbackWorker()
                 ++newMethodCount;
             }
         }
-        ETW::CompilationLog::TieredCompilation::Runtime::SendResume(newMethodCount);
-    }
+#ifdef FEATURE_EVENT_TRACE
+		ETW::CompilationLog::TieredCompilation::Runtime::SendResume(newMethodCount);
+#endif
+	}
 
     // Install call counters
     for (COUNT_T i = 0; i < methodCount; ++i)
@@ -630,10 +634,12 @@ void TieredCompilationManager::OptimizeMethods()
     // work item to the thread pool and return this thread back to the pool.
     const DWORD OptimizationQuantumMs = 50;
 
-    if (ETW::CompilationLog::TieredCompilation::Runtime::IsEnabled())
+#ifdef FEATURE_EVENT_TRACE
+	if (ETW::CompilationLog::TieredCompilation::Runtime::IsEnabled())
     {
         ETW::CompilationLog::TieredCompilation::Runtime::SendBackgroundJitStart(m_countOfMethodsToOptimize);
     }
+#endif
 
     UINT32 jittedMethodCount = 0;
     DWORD startTickCount = GetTickCount();
@@ -690,10 +696,12 @@ void TieredCompilationManager::OptimizeMethods()
     }
     EX_END_CATCH(RethrowTerminalExceptions);
 
-    if (ETW::CompilationLog::TieredCompilation::Runtime::IsEnabled())
+#ifdef FEATURE_EVENT_TRACE
+	if (ETW::CompilationLog::TieredCompilation::Runtime::IsEnabled())
     {
         ETW::CompilationLog::TieredCompilation::Runtime::SendBackgroundJitStop(m_countOfMethodsToOptimize, jittedMethodCount);
     }
+#endif
 }
 
 // Jit compiles and installs new optimized code for a method.

@@ -8,4 +8,6 @@ else()
     add_library_clr(utilcode STATIC ${UTILCODE_SOURCES})
 endif(CLR_CMAKE_PLATFORM_UNIX)
 
+if(UTILCODE_DEPENDENCIES)
 add_dependencies(utilcode ${UTILCODE_DEPENDENCIES})
+endif()
