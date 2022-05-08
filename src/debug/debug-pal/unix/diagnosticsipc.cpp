@@ -41,7 +41,8 @@ IpcStream::DiagnosticsIpc::~DiagnosticsIpc()
 
 IpcStream::DiagnosticsIpc *IpcStream::DiagnosticsIpc::Create(const char *const pIpcName, ErrorCallback callback)
 {
-#ifdef __APPLE__
+	// also for FreeBSD, fchmod returns EINVAL when fd is a socket (see CHMOD(2))
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
     mode_t prev_mask = umask(~(S_IRUSR | S_IWUSR)); // This will set the default permission bit to 600
 #endif // __APPLE__
 
@@ -50,8 +51,8 @@ IpcStream::DiagnosticsIpc *IpcStream::DiagnosticsIpc::Create(const char *const p
     {
         if (callback != nullptr)
             callback(strerror(errno), errno);
-#ifdef __APPLE__
-        umask(prev_mask);
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
+	umask(prev_mask);
 #endif // __APPLE__
         _ASSERTE(!"Failed to create diagnostics IPC socket.");
         return nullptr;
@@ -67,7 +68,7 @@ IpcStream::DiagnosticsIpc *IpcStream::DiagnosticsIpc::Create(const char *const p
         pd.m_ApplicationGroupId,
         "socket");
 
-#ifndef __APPLE__
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
     if (fchmod(serverSocket, S_IRUSR | S_IWUSR) == -1)
     {
         if (callback != nullptr)
@@ -87,8 +88,8 @@ IpcStream::DiagnosticsIpc *IpcStream::DiagnosticsIpc::Create(const char *const p
         const int fSuccessClose = ::close(serverSocket);
         _ASSERTE(fSuccessClose != -1);
 
-#ifdef __APPLE__
-        umask(prev_mask);
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
+		umask(prev_mask);
 #endif // __APPLE__
 
         return nullptr;
@@ -106,14 +107,14 @@ IpcStream::DiagnosticsIpc *IpcStream::DiagnosticsIpc::Create(const char *const p
 
         const int fSuccessClose = ::close(serverSocket);
         _ASSERTE(fSuccessClose != -1);
-#ifdef __APPLE__
-        umask(prev_mask);
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
+		umask(prev_mask);
 #endif // __APPLE__
         return nullptr;
     }
 
-#ifdef __APPLE__
-    umask(prev_mask);
+#if !defined(__APPLE__) && !defined(__FreeBSD__)
+	umask(prev_mask);
 #endif // __APPLE__
 
     return new IpcStream::DiagnosticsIpc(serverSocket, &serverAddress);
