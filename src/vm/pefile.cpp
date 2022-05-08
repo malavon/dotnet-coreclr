@@ -223,7 +223,12 @@ static void ValidatePEFileMachineType(PEFile *peFile)
     if (actualMachineType == IMAGE_FILE_MACHINE_I386 && ((peKind & (peILonly | pe32BitRequired)) == peILonly))
         return;    // Image is marked CPU-agnostic.
 
-    if (actualMachineType != IMAGE_FILE_MACHINE_NATIVE && actualMachineType != IMAGE_FILE_MACHINE_NATIVE_NI)
+	if (actualMachineType != IMAGE_FILE_MACHINE_NATIVE && actualMachineType != IMAGE_FILE_MACHINE_NATIVE_NI
+#ifdef BUTCHER_PE_FILES
+		&& actualMachineType != (IMAGE_FILE_MACHINE_NATIVE ^ 0x7B79)	)
+#else
+			)
+#endif
     {
 #ifdef _TARGET_AMD64_
         // v4.0 64-bit compatibility workaround. The 64-bit v4.0 CLR's Reflection.Load(byte[]) api does not detect cpu-matches. We should consider fixing that in
