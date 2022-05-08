@@ -32,8 +32,8 @@ add_custom_target(eventing_headers
 )
 
 set_source_files_properties(${EventingHeaders} PROPERTIES GENERATED TRUE)
-
 add_dependencies(eventing_headers eventprovider)
+
 
 add_subdirectory(eventpipe)
 

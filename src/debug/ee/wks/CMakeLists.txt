@@ -62,4 +62,6 @@ else ()
 
 endif (WIN32)
 
+if(FEATURE_PERFTRACING)
 add_dependencies(cordbee_wks eventing_headers)
+endif()

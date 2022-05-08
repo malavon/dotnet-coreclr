@@ -16,4 +16,6 @@ add_library_clr(bcltype
     ${BCLTYPE_SOURCES}
 )
 
+if(FEATURE_PERFTRACING)
 add_dependencies(bcltype eventing_headers)
+endif()

@@ -38,4 +38,6 @@ if(FEATURE_EVENT_TRACE)
 endif(FEATURE_EVENT_TRACE)
 
 target_link_libraries(eventprovidertest  ${EVENT_PROVIDER_DEPENDENCIES} coreclrpal)
+if(FEATURE_PERFTRACING)
 add_dependencies(eventprovidertest eventing_headers)
+endif()

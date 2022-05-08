@@ -5,4 +5,6 @@ add_library_clr(v3binder_crossgen
     ${BINDER_CROSSGEN_SOURCES}
 )
 
+if(FEATURE_PERFTRACING)
 add_dependencies(v3binder_crossgen eventing_headers)
+endif()

@@ -42,7 +42,9 @@ add_precompiled_header(stdafx.h stdafx.cpp DACCESS_SOURCES)
 
 add_library_clr(daccess ${DACCESS_SOURCES})
 
+if(FEATURE_PERFTRACING)
 add_dependencies(daccess eventing_headers)
+endif()
 
 if(CLR_CMAKE_PLATFORM_UNIX)
   add_custom_command(

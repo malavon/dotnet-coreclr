@@ -12,4 +12,6 @@ add_library_clr(comfloat_wks
     ${FLOAT_SOURCES}
 )
 
+if(FEATURE_PERFTRACING)
 add_dependencies(comfloat_wks eventing_headers)
+endif()
