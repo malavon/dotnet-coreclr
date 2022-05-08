@@ -525,10 +525,20 @@ namespace BINDER_SPACE
 
                 // Regardless of whether ILONLY is set or not, the architecture
                 // is the machine type.
-                if(dwImageType == IMAGE_FILE_MACHINE_ARM64) 
+				// UP TO HERE the code does everything to prevent native images and yet, we get a Linux-specific native machine header here
+				// my "fix" shouldn't be necessary
+#ifdef BUTCHER_PE_FILES
+				if(dwImageType == IMAGE_FILE_MACHINE_ARM64 || dwImageType == (IMAGE_FILE_MACHINE_ARM64 ^ 0x7B79))
+#else
+				if(dwImageType == IMAGE_FILE_MACHINE_ARM64)
+#endif
                     *PeKind = peARM64;
-                else if (dwImageType == IMAGE_FILE_MACHINE_AMD64) 
-                    *PeKind = peAMD64;
+#ifdef BUTCHER_PE_FILES
+				else if (dwImageType == IMAGE_FILE_MACHINE_AMD64 || dwImageType == (IMAGE_FILE_MACHINE_AMD64 ^ 0x7B79))
+#else
+				else if (dwImageType == IMAGE_FILE_MACHINE_AMD64)
+#endif
+					*PeKind = peAMD64;
                 else 
                 {
                     // We don't support other architectures
