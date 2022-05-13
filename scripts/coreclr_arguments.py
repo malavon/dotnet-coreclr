@@ -73,7 +73,7 @@ class CoreclrArguments:
 
         self.valid_arches = ["x64", "x86", "arm", "arm64"]
         self.valid_build_types = ["Debug", "Checked", "Release"]
-        self.valid_host_os = ["Windows", "Windows_NT", "OSX", "Linux"]
+        self.valid_host_os = ["Windows", "Windows_NT", "OSX", "Linux", "FreeBSD"]
 
         self.__initialize__(args)
 
@@ -194,6 +194,8 @@ class CoreclrArguments:
         def provide_default_host_os():
             if _platform == "linux" or _platform == "linux2":
                 return "Linux"
+            elif _platform.startswith( "freebsd" ):
+                return "FreeBSD"
             elif _platform == "darwin":
                 return "OSX"
             elif _platform == "win32":
@@ -217,6 +219,7 @@ class CoreclrArguments:
 
         def check_and_return_default_core_root(core_root):
             default_core_root = os.path.join(self.test_location, "Tests", "Core_Root")
+            print("default_core_root OS: %s" % default_core_root)
 
             if os.path.isdir(default_core_root) or not self.require_built_core_root:
                 return default_core_root
@@ -228,6 +231,7 @@ class CoreclrArguments:
 
         def check_and_return_default_product_location(product_location):
             default_product_location = os.path.join(self.bin_location, "Product", "%s.%s.%s" % (self.host_os, self.arch, self.build_type))
+            print("default_product_location OS: %s" % default_product_location)
 
             if os.path.isdir(default_product_location) or not self.require_built_product_dir:
                 return default_product_location
