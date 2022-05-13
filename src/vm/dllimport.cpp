@@ -5567,7 +5567,8 @@ MethodDesc* RestoreNGENedStub(MethodDesc* pStubMD)
             }
         }
 
-#if defined(HAVE_GCCOVER)
+// fails with clang, debug & prejit
+#if 0//defined(HAVE_GCCOVER)
         if (GCStress<cfg_instr_ngen>::IsEnabled())
             SetupGcCoverage(pStubMD, (BYTE*) pCode);
 #endif // HAVE_GCCOVER
