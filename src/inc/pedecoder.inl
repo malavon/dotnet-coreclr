@@ -951,11 +951,7 @@ inline BOOL PEDecoder::IsNativeMachineFormat() const
         IMAGE_FILE_MACHINE_NATIVE_NI :
         IMAGE_FILE_MACHINE_NATIVE;
     //do not call GetNTHeaders as we do not want to bother with PE32->PE32+ conversion
-#ifdef BUTCHER_PE_FILES
-	return true;
-#else
-	return m_pNTHeaders->FileHeader.Machine==expectedFormat;
-#endif
+    return m_pNTHeaders->FileHeader.Machine==expectedFormat;
 }
 
 inline BOOL PEDecoder::IsI386() const
