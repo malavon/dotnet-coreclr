@@ -535,11 +535,11 @@ PCODE MethodDesc::GetPrecompiledNgenCode(PrepareCodeConfig* pConfig)
                 ThrowHR(COR_E_BADIMAGEFORMAT);
             }
         }
-
-#ifdef HAVE_GCCOVER
-        if (GCStress<cfg_instr_ngen>::IsEnabled())
-            SetupGcCoverage(this, (BYTE*)pCode);
-#endif // HAVE_GCCOVER
+// doesn't compile with Clang
+//#ifdef HAVE_GCCOVER
+//        if (GCStress<cfg_instr_ngen>::IsEnabled())
+//            SetupGcCoverage(this, (BYTE*)pCode);
+//#endif // HAVE_GCCOVER
 
 #ifdef PROFILING_SUPPORTED 
         /*
